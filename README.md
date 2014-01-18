@@ -1,47 +1,51 @@
 Clover.xml parser for TeamCity
 ==============================
 
-This small php script integrates the code coverage information from PHPUnit into TeamCity. The script will create the `teamcity-info.xml` (or append the metrics to an already existing xml file), which will automatically be parsed by TeamCity.
+This small php script integrates the code coverage information from PHPUnit into TeamCity.
+It creates the `teamcity-info.xml` (or append the metrics to an already existing xml file),
+which will automatically be parsed by TeamCity and the metrics will appear in the GUI.
 
 
 Usage
 -----
-Run PHPUnit and make sure to use the `--coverage-clover` argument to create the clover.xml. Then add another build step to run the `teamcity-clover.php` script and provide the path to the clover.xml as the only argument, for example: `php path/to/teamcity-clover.php %system.teamcity.build.tempDir%/clover.xml`.
+Run PHPUnit and make sure to use the `--coverage-clover` argument to create the clover.xml. Then add
+another build step to run the `teamcity-clover.php` script and provide the path to the clover.xml as
+the only argument, for example: `php path/to/teamcity-clover.php %system.teamcity.build.tempDir%/clover.xml`.
 
 
 Mapping
 -------
-Since TeamCity and PHPUnit do not provide the same code coverage information, some changes had to be made. The code coverage mapping is as follows (see the [TeamCity documentation](http://confluence.jetbrains.com/display/TCD8/Custom+Chart#CustomChart-DefaultStatisticsValuesProvidedbyTeamCity) for the key names):
+Since TeamCity and PHPUnit do not provide the same code coverage information, the different attributes
+had to be matched. The code coverage mapping is as follows:
 
-TeamCity | PHPUnit
--------- | ----------
-Blocks   | Statements
-Lines    | Elements
-Methods  | Methods
-Classes  | *N/A*
+TeamCity | PHPUnit    | Statistic Key Names
+-------- | ---------- | ---------------------------------------------------------------------
+Lines    | Elements   | CodeCoverageAbsLTotal, CodeCoverageAbsLCovered, CodeCoverageL
+Blocks   | Statements | CodeCoverageAbsBTotal, CodeCoverageAbsBCovered, CodeCoverageB
+Methods  | Methods    | CodeCoverageAbsMTotal, CodeCoverageAbsMCovered, CodeCoverageM
+Classes  | Classes    | CodeCoverageAbsCTotal *(covered lines and percent are not available)*
 
 
 Custom statistics
 -----------------
-In addition to the code coverage, the following custom statistics values are reported to TeamCity:
+In addition to the code coverage, the following custom statistic values are reported to TeamCity:
 
 Custom Statistic Key  | Description
 --------------------- | -----------------------------------
 Files                 | Amount of files
-Classes               | Amount of classes
 LinesOfCode           | Amount of lines of code
 NonCommentLinesOfCode | Amount of non-comment lines of code
 
 
 Custom Graphs
 -------------
-You can create graphs for the new statistics as well (see the table above for the key names).
+Besides the automatically created code coverage graphs, you can create graphs for the custom statistics
+as well, by updating the `<TeamCity Data Directory>/config/main-config.xml`. For example:
 
-Example:
 ```xml
 <graph title="Metrics" defaultFilters="showFailed" seriesTitle="Type">
     <valueType key="Files" title="Files" />
-    <valueType key="Classes" title="Classes" />
+    <valueType key="CodeCoverageAbsCTotal" title="Classes" />
     <valueType key="CodeCoverageAbsMTotal" title="Methods" />
 </graph>
 <graph title="Lines" defaultFilters="showFailed" seriesTitle="Type">
@@ -51,3 +55,9 @@ Example:
 ```
 
 See the [TeamCity documentation](http://confluence.jetbrains.com/display/TCD8/Custom+Chart) for more information.
+
+
+License
+-------
+The files in this archive are licensed under the BSD-3-Clause license.
+You can find a copy of this license in [LICENSE.txt](LICENSE.txt).
