@@ -23,7 +23,7 @@ TeamCity | PHPUnit    | Statistic Key Names
 Lines    | Elements   | CodeCoverageAbsLTotal, CodeCoverageAbsLCovered, CodeCoverageL
 Blocks   | Statements | CodeCoverageAbsBTotal, CodeCoverageAbsBCovered, CodeCoverageB
 Methods  | Methods    | CodeCoverageAbsMTotal, CodeCoverageAbsMCovered, CodeCoverageM
-Classes  | Classes    | CodeCoverageAbsCTotal *(covered lines and percent are not available)*
+Classes  | Classes/Traits | CodeCoverageAbsCTotal, CodeCoverageAbsCCovered, CodeCoverageC
 
 
 Custom statistics
