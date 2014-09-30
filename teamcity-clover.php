@@ -29,6 +29,17 @@ if (!$metrics) {
     exit(1);
 }
 
+$covered_classes = 0;
+foreach ($cloverXml->project->file as $file) {
+    if (empty($file->class)) continue;
+
+    foreach ($file->class as $class) {
+        if ((int)$class->metrics['coveredmethods'] == (int)$class->metrics['methods']) {
+            $covered_classes += 1;
+        }
+    }
+}
+
 $teamcityXml = file_exists('teamcity-info.xml')
     ? new SimpleXMLElement('teamcity-info.xml', null, true)
     : new SimpleXMLElement('<build />');
@@ -41,9 +52,11 @@ $data = array(
     'CodeCoverageAbsMTotal' => (int) $metrics["methods"],
     'CodeCoverageAbsMCovered' => (int) $metrics["coveredmethods"],
     'CodeCoverageAbsCTotal' => (int) $metrics["classes"],
+    'CodeCoverageAbsCCovered' => $covered_classes,
     'CodeCoverageB' => $metrics["coveredstatements"] / $metrics["statements"] * 100,
     'CodeCoverageL' => $metrics["coveredelements"] / $metrics["elements"] * 100,
     'CodeCoverageM' => $metrics["coveredmethods"] / $metrics["methods"] * 100,
+    'CodeCoverageC' => $covered_classes / $metrics["classes"] * 100,
     'Files' => (int) $metrics["files"],
     'LinesOfCode' => (int) $metrics["loc"],
     'NonCommentLinesOfCode' => (int) $metrics["ncloc"],
