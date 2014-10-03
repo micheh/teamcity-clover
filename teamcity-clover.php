@@ -30,13 +30,9 @@ if (!$metrics) {
 }
 
 $covered_classes = 0;
-foreach ($cloverXml->project->file as $file) {
-    if (empty($file->class)) continue;
-
-    foreach ($file->class as $class) {
-        if ((int)$class->metrics['coveredmethods'] == (int)$class->metrics['methods']) {
-            $covered_classes += 1;
-        }
+foreach ($cloverXml->xpath('//class') as $class) {
+    if ((int)$class->metrics['coveredmethods'] == (int)$class->metrics['methods']) {
+        $covered_classes += 1;
     }
 }
 
