@@ -18,11 +18,11 @@ Mapping
 Since TeamCity and PHPUnit do not provide the same code coverage information, the different attributes
 had to be matched. The code coverage mapping is as follows:
 
-TeamCity | PHPUnit    | Statistic Key Names
--------- | ---------- | ---------------------------------------------------------------------
-Lines    | Elements   | CodeCoverageAbsLTotal, CodeCoverageAbsLCovered, CodeCoverageL
-Blocks   | Statements | CodeCoverageAbsBTotal, CodeCoverageAbsBCovered, CodeCoverageB
-Methods  | Methods    | CodeCoverageAbsMTotal, CodeCoverageAbsMCovered, CodeCoverageM
+TeamCity | PHPUnit        | Statistic Key Names
+-------- | -------------- | -------------------------------------------------------------
+Lines    | Elements       | CodeCoverageAbsLTotal, CodeCoverageAbsLCovered, CodeCoverageL
+Blocks   | Statements     | CodeCoverageAbsBTotal, CodeCoverageAbsBCovered, CodeCoverageB
+Methods  | Methods        | CodeCoverageAbsMTotal, CodeCoverageAbsMCovered, CodeCoverageM
 Classes  | Classes/Traits | CodeCoverageAbsCTotal, CodeCoverageAbsCCovered, CodeCoverageC
 
 

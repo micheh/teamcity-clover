@@ -29,10 +29,11 @@ if (!$metrics) {
     exit(1);
 }
 
-$covered_classes = 0;
+
+$coveredClasses = 0;
 foreach ($cloverXml->xpath('//class') as $class) {
-    if ((int)$class->metrics['coveredmethods'] == (int)$class->metrics['methods']) {
-        $covered_classes += 1;
+    if ((int) $class->metrics['coveredmethods'] == (int) $class->metrics['methods']) {
+        $coveredClasses++;
     }
 }
 
@@ -48,11 +49,11 @@ $data = array(
     'CodeCoverageAbsMTotal' => (int) $metrics["methods"],
     'CodeCoverageAbsMCovered' => (int) $metrics["coveredmethods"],
     'CodeCoverageAbsCTotal' => (int) $metrics["classes"],
-    'CodeCoverageAbsCCovered' => $covered_classes,
+    'CodeCoverageAbsCCovered' => $coveredClasses,
     'CodeCoverageB' => $metrics["coveredstatements"] / $metrics["statements"] * 100,
     'CodeCoverageL' => $metrics["coveredelements"] / $metrics["elements"] * 100,
     'CodeCoverageM' => $metrics["coveredmethods"] / $metrics["methods"] * 100,
-    'CodeCoverageC' => $covered_classes / $metrics["classes"] * 100,
+    'CodeCoverageC' => $coveredClasses / $metrics["classes"] * 100,
     'Files' => (int) $metrics["files"],
     'LinesOfCode' => (int) $metrics["loc"],
     'NonCommentLinesOfCode' => (int) $metrics["ncloc"],
