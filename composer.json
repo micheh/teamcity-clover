@@ -1,0 +1,12 @@
+{
+    "name": "micheh/teamcity-clover",
+    "description": "Clover.xml parser for TeamCity",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Michel Hunziker",
+            "email": "info@michelhunziker.com"
+        }
+    ],
+    "bin": ["teamcity-clover"]
+}
