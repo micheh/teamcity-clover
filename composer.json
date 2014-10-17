@@ -8,5 +8,8 @@
             "email": "info@michelhunziker.com"
         }
     ],
+    "require": {
+        "php": ">=5.2.0"
+    },
     "bin": ["teamcity-clover"]
 }
