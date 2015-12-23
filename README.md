@@ -17,6 +17,9 @@ Or manually add it to your `composer.json` file with:
 }
 ```
 
+To use the script without composer, [download the current version](https://github.com/micheh/teamcity-clover/archive/master.zip) and extract the files to a location where TeamCity has access.
+
+
 Usage
 -----
 Run PHPUnit and make sure to use the `--coverage-clover` argument to create the clover.xml. Then add
