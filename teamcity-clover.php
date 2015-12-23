@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Script, which publishes the code coverage clover.xml from PHPUnit to Teamcity
+ * Script, which publishes the code coverage clover.xml from PHPUnit to TeamCity.
  *
  * @author Michel Hunziker <info@michelhunziker.com>
- * @copyright Copyright (c) 2014 Michel Hunziker <info@michelhunziker.com>
+ * @copyright Copyright (c) 2015 Michel Hunziker <info@michelhunziker.com>
  * @license http://www.opensource.org/licenses/BSD-3-Clause The BSD-3-Clause License
  */
 
 
-if ($argc != 2) {
-    echo 'Path to the clover.xml is required.';
+if ($argc !== 2) {
+    echo "Path to the clover.xml is required.\n";
     exit(1);
 }
 
 $path = $argv[1];
 if (!file_exists($path)) {
-    echo 'Path to the clover.xml is incorrect.';
+    echo "Path to the clover.xml is incorrect.\n";
     exit(1);
 }
 
@@ -25,14 +25,14 @@ $cloverXml = new SimpleXMLElement($path, null, true);
 $metrics = $cloverXml->project->metrics;
 
 if (!$metrics) {
-    echo 'clover.xml does not contain code coverage metrics.';
+    echo "clover.xml does not contain code coverage metrics.\n";
     exit(1);
 }
 
 
 $coveredClasses = 0;
 foreach ($cloverXml->xpath('//class') as $class) {
-    if ((int) $class->metrics['coveredmethods'] == (int) $class->metrics['methods']) {
+    if ((int) $class->metrics['coveredmethods'] === (int) $class->metrics['methods']) {
         $coveredClasses++;
     }
 }
@@ -42,21 +42,21 @@ $teamcityXml = file_exists('teamcity-info.xml')
     : new SimpleXMLElement('<build />');
 
 $data = array(
-    'CodeCoverageAbsLTotal' => (int) $metrics["elements"],
-    'CodeCoverageAbsLCovered' => (int) $metrics["coveredelements"],
-    'CodeCoverageAbsBTotal' => (int) $metrics["statements"],
-    'CodeCoverageAbsBCovered' => (int) $metrics["coveredstatements"],
-    'CodeCoverageAbsMTotal' => (int) $metrics["methods"],
-    'CodeCoverageAbsMCovered' => (int) $metrics["coveredmethods"],
-    'CodeCoverageAbsCTotal' => (int) $metrics["classes"],
+    'CodeCoverageAbsLTotal' => (int) $metrics['elements'],
+    'CodeCoverageAbsLCovered' => (int) $metrics['coveredelements'],
+    'CodeCoverageAbsBTotal' => (int) $metrics['statements'],
+    'CodeCoverageAbsBCovered' => (int) $metrics['coveredstatements'],
+    'CodeCoverageAbsMTotal' => (int) $metrics['methods'],
+    'CodeCoverageAbsMCovered' => (int) $metrics['coveredmethods'],
+    'CodeCoverageAbsCTotal' => (int) $metrics['classes'],
     'CodeCoverageAbsCCovered' => $coveredClasses,
-    'CodeCoverageB' => $metrics["coveredstatements"] / $metrics["statements"] * 100,
-    'CodeCoverageL' => $metrics["coveredelements"] / $metrics["elements"] * 100,
-    'CodeCoverageM' => $metrics["coveredmethods"] / $metrics["methods"] * 100,
-    'CodeCoverageC' => $coveredClasses / $metrics["classes"] * 100,
-    'Files' => (int) $metrics["files"],
-    'LinesOfCode' => (int) $metrics["loc"],
-    'NonCommentLinesOfCode' => (int) $metrics["ncloc"],
+    'CodeCoverageB' => $metrics['coveredstatements'] / $metrics['statements'] * 100,
+    'CodeCoverageL' => $metrics['coveredelements'] / $metrics['elements'] * 100,
+    'CodeCoverageM' => $metrics['coveredmethods'] / $metrics['methods'] * 100,
+    'CodeCoverageC' => $coveredClasses / $metrics['classes'] * 100,
+    'Files' => (int) $metrics['files'],
+    'LinesOfCode' => (int) $metrics['loc'],
+    'NonCommentLinesOfCode' => (int) $metrics['ncloc'],
 );
 
 foreach ($data as $key => $value) {
@@ -67,9 +67,9 @@ foreach ($data as $key => $value) {
 
 $success = $teamcityXml->asXML('teamcity-info.xml');
 if (!$success) {
-    echo 'Could not save teamcity-info.xml';
+    echo "Could not save teamcity-info.xml\n";
     exit(1);
-} else {
-    echo 'clover.xml statistics added to teamcity-info.xml';
-    exit(0);
 }
+
+echo "clover.xml statistics added to teamcity-info.xml\n";
+exit(0);
