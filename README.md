@@ -5,6 +5,20 @@ This small php script integrates the code coverage information from PHPUnit into
 It creates the `teamcity-info.xml` (or append the metrics to an already existing xml file),
 which will automatically be parsed by TeamCity and the metrics will appear in the GUI.
 
+Installation
+------------
+Use composer to add teamcity-clover to your project: `composer require --dev micheh/teamcity-clover`.
+
+Or manually add it to your `composer.json` file with:
+
+```json
+"require-dev": {
+    "micheh/teamcity-clover": "^0.1.0"
+}
+```
+
+To use the script without composer, [download the current version](https://github.com/micheh/teamcity-clover/archive/master.zip) and extract the files to a location where TeamCity has access.
+
 
 Usage
 -----
