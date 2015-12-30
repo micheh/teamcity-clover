@@ -2,8 +2,14 @@ Clover.xml parser for TeamCity
 ==============================
 
 This small php script integrates the code coverage information from PHPUnit into TeamCity.
-It creates the `teamcity-info.xml` (or append the metrics to an already existing xml file),
-which will automatically be parsed by TeamCity and the metrics will appear in the GUI.
+
+Service messages are used to notify TeamCity of the build metrics, since usage of `teamcity-info.xml` has been deprecated, and support may be removed in future versions of TeamCity.  Documentation: https://confluence.jetbrains.com/display/TCD9/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-teamcity-info.xml
+
+The metrics will appear in the TeamCity GUI by default, under the Statistics tab for your build configuration.  As of TeamCity 9, you can easily add custom charts if your reporting needs are more sophisticated.  Documentation: https://confluence.jetbrains.com/display/TCD9/Customizing+Statistics+Charts
+
+Additionally, these metrics can be used to enforce standards on builds.  For example, you can update your build configuration to enforce that code coverage has not dropped below some pre-determined threshold, or has not dropped by some percentage.  Documentation: https://confluence.jetbrains.com/display/TCD9/Build+Failure+Conditions#BuildFailureConditions-fail-metric-change
+
+
 
 Installation
 ------------
@@ -26,6 +32,7 @@ Run PHPUnit and make sure to use the `--coverage-clover` argument to create the 
 another build step to run the `teamcity-clover.php` script and provide the path to the clover.xml as
 the only argument, for example: `php path/to/teamcity-clover.php %system.teamcity.build.tempDir%/clover.xml`.
 
+If you are using the PHPUnit Meta-Runner from the Jetbrains Meta-Runner Power Pack, the above path is where you'll find clover.xml.
 
 Mapping
 -------
@@ -70,6 +77,7 @@ as well, by updating the `<TeamCity Data Directory>/config/main-config.xml`. For
 
 See the [TeamCity documentation](http://confluence.jetbrains.com/display/TCD8/Custom+Chart) for more information.
 
+Since TeamCity 9.x, you can also add custom graphs via the TeamCity GUI, instead of manually editing project XML's.  See TeamCity documentation for details.
 
 License
 -------

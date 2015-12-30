@@ -20,7 +20,7 @@ if (!file_exists($path)) {
     exit(1);
 }
 
-
+echo "Reading Clover data from: $path\n";
 $cloverXml = new SimpleXMLElement($path, null, true);
 $metrics = $cloverXml->project->metrics;
 
@@ -29,17 +29,13 @@ if (!$metrics) {
     exit(1);
 }
 
-
+echo "Parsing Clover data...\n";
 $coveredClasses = 0;
 foreach ($cloverXml->xpath('//class') as $class) {
     if ((int) $class->metrics['coveredmethods'] === (int) $class->metrics['methods']) {
         $coveredClasses++;
     }
 }
-
-$teamcityXml = file_exists('teamcity-info.xml')
-    ? new SimpleXMLElement('teamcity-info.xml', null, true)
-    : new SimpleXMLElement('<build />');
 
 $data = array(
     'CodeCoverageAbsLTotal' => (int) $metrics['elements'],
@@ -59,17 +55,8 @@ $data = array(
     'NonCommentLinesOfCode' => (int) $metrics['ncloc'],
 );
 
-foreach ($data as $key => $value) {
-    $statistic = $teamcityXml->addChild('statisticValue');
-    $statistic->addAttribute('key', $key);
-    $statistic->addAttribute('value', $value);
-}
+foreach ($data as $key => $value)
+    echo "##teamcity[buildStatisticValue key='$key' value='$value']\n";
 
-$success = $teamcityXml->asXML('teamcity-info.xml');
-if (!$success) {
-    echo "Could not save teamcity-info.xml\n";
-    exit(1);
-}
-
-echo "clover.xml statistics added to teamcity-info.xml\n";
+echo "TeamCity has been notified of code coverage metrics.\n";
 exit(0);
