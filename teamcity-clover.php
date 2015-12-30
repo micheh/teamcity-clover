@@ -20,7 +20,7 @@ if (!file_exists($path)) {
     exit(1);
 }
 
-echo "Reading Clover data from: $path\n";
+echo "Parsing clover.xml from: $path\n";
 $cloverXml = new SimpleXMLElement($path, null, true);
 $metrics = $cloverXml->project->metrics;
 
@@ -29,7 +29,6 @@ if (!$metrics) {
     exit(1);
 }
 
-echo "Parsing Clover data...\n";
 $coveredClasses = 0;
 foreach ($cloverXml->xpath('//class') as $class) {
     if ((int) $class->metrics['coveredmethods'] === (int) $class->metrics['methods']) {
@@ -55,8 +54,8 @@ $data = array(
     'NonCommentLinesOfCode' => (int) $metrics['ncloc'],
 );
 
-foreach ($data as $key => $value)
+foreach ($data as $key => $value) {
     echo "##teamcity[buildStatisticValue key='$key' value='$value']\n";
+}
 
 echo "TeamCity has been notified of code coverage metrics.\n";
-exit(0);
