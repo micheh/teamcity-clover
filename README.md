@@ -50,7 +50,27 @@ Classes  | Classes/Traits | CodeCoverageAbsCTotal, CodeCoverageAbsCCovered, Code
 
 Custom statistics
 -----------------
-In addition to the code coverage, the following custom statistic values are reported to TeamCity:
+In addition to the code coverage, the script will also report custom statistic values to TeamCity. 
+These values do not appear in the web interface by default, but can be used for custom graphs or for build failure conditions.
+
+### CRAP Index ###
+PHPUnit calculates a Change Risk Anti-Patterns (CRAP) Index for each method, which depends on the 
+cyclomatic complexity and code coverage (see [this question on StackOverflow](https://stackoverflow.com/q/4731774) for more information).
+The script will report the average and maximum CRAP index to TeamCity, as well as the number of methods 
+with a CRAP index equal or above a specified threshold (by default 30). You can change the CRAP threshold 
+by providing the `--crap-threshold <number>` argument to the script. For example, to count all methods 
+with a CRAP index of 20 or more, use `php teamcity-clover.php --crap-threshold 20 clover.xml`.
+Set the threshold to 0 to disable the reporting of the CRAP metrics.
+
+Custom Statistic Key  | Description
+--------------------- | -------------------------------------------------------------
+CRAPAmount            | Number of methods with a CRAP index >= threshold (default: 30)
+CRAPAverage           | Average CRAP index over all methods
+CRAPMaximum           | Highest CRAP index reported
+
+
+### Other metrics ###
+In addition, the following various metrics are reported to TeamCity:
 
 Custom Statistic Key  | Description
 --------------------- | -----------------------------------

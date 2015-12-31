@@ -9,16 +9,20 @@
  */
 
 
-if ($argc !== 2) {
+if ($argc < 2) {
     echo "Path to the clover.xml is required.\n";
     exit(1);
 }
 
-$path = $argv[1];
+$options = getopt('', array('crap-threshold:'));
+$crapThreshold = array_key_exists('crap-threshold', $options) ? (float) $options['crap-threshold'] : 30;
+
+$path = array_pop($argv);
 if (!file_exists($path)) {
     echo "Path to the clover.xml is incorrect.\n";
     exit(1);
 }
+
 
 echo "Parsing clover.xml from: $path\n";
 $cloverXml = new SimpleXMLElement($path, null, true);
@@ -35,6 +39,7 @@ foreach ($cloverXml->xpath('//class') as $class) {
         $coveredClasses++;
     }
 }
+
 
 $data = array(
     'CodeCoverageAbsLTotal' => (int) $metrics['elements'],
@@ -53,6 +58,26 @@ $data = array(
     'LinesOfCode' => (int) $metrics['loc'],
     'NonCommentLinesOfCode' => (int) $metrics['ncloc'],
 );
+
+
+if ($crapThreshold) {
+    $crapValues = array();
+    $crapAmount = 0;
+    foreach ($cloverXml->xpath('//@crap') as $crap) {
+        $crap = (float) $crap;
+        $crapValues[] = $crap;
+        if ($crap >= $crapThreshold) {
+            $crapAmount++;
+        }
+    }
+
+    $crapValuesCount = count($crapValues);
+
+    $data['CRAPAmount'] = $crapAmount;
+    $data['CRAPAverage'] = $crapValuesCount ? round(array_sum($crapValues) / $crapValuesCount, 6) : 0;
+    $data['CRAPMaximum'] = max($crapValues);
+}
+
 
 foreach ($data as $key => $value) {
     echo "##teamcity[buildStatisticValue key='$key' value='$value']\n";
