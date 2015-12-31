@@ -72,9 +72,12 @@ if ($crapThreshold) {
     }
 
     $crapValuesCount = count($crapValues);
+    $crapTotal = array_sum($crapValues);
 
     $data['CRAPAmount'] = $crapAmount;
-    $data['CRAPAverage'] = $crapValuesCount ? array_sum($crapValues) / $crapValuesCount : 0;
+    $data['CRAPPercent'] = $crapValuesCount ? $crapAmount / $crapValuesCount * 100 : 0;
+    $data['CRAPTotal'] = $crapTotal;
+    $data['CRAPAverage'] = $crapValuesCount ? $crapTotal / $crapValuesCount : 0;
     $data['CRAPMaximum'] = max($crapValues);
 }
 
