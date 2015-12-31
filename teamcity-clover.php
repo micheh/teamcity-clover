@@ -50,10 +50,10 @@ $data = array(
     'CodeCoverageAbsMCovered' => (int) $metrics['coveredmethods'],
     'CodeCoverageAbsCTotal' => (int) $metrics['classes'],
     'CodeCoverageAbsCCovered' => $coveredClasses,
-    'CodeCoverageB' => $metrics['statements'] ? round($metrics['coveredstatements'] / $metrics['statements'] * 100, 6) : 0,
-    'CodeCoverageL' => $metrics['elements'] ? round($metrics['coveredelements'] / $metrics['elements'] * 100, 6) : 0,
-    'CodeCoverageM' => $metrics['methods'] ? round($metrics['coveredmethods'] / $metrics['methods'] * 100, 6) : 0,
-    'CodeCoverageC' => $metrics['classes'] ? round($coveredClasses / $metrics['classes'] * 100, 6) : 0,
+    'CodeCoverageB' => $metrics['statements'] ? $metrics['coveredstatements'] / $metrics['statements'] * 100 : 0,
+    'CodeCoverageL' => $metrics['elements'] ? $metrics['coveredelements'] / $metrics['elements'] * 100 : 0,
+    'CodeCoverageM' => $metrics['methods'] ? $metrics['coveredmethods'] / $metrics['methods'] * 100 : 0,
+    'CodeCoverageC' => $metrics['classes'] ? $coveredClasses / $metrics['classes'] * 100 : 0,
     'Files' => (int) $metrics['files'],
     'LinesOfCode' => (int) $metrics['loc'],
     'NonCommentLinesOfCode' => (int) $metrics['ncloc'],
@@ -74,12 +74,16 @@ if ($crapThreshold) {
     $crapValuesCount = count($crapValues);
 
     $data['CRAPAmount'] = $crapAmount;
-    $data['CRAPAverage'] = $crapValuesCount ? round(array_sum($crapValues) / $crapValuesCount, 6) : 0;
+    $data['CRAPAverage'] = $crapValuesCount ? array_sum($crapValues) / $crapValuesCount : 0;
     $data['CRAPMaximum'] = max($crapValues);
 }
 
 
 foreach ($data as $key => $value) {
+    if (is_float($value)) {
+        $value = round($value, 6);
+    }
+
     echo "##teamcity[buildStatisticValue key='$key' value='$value']\n";
 }
 
