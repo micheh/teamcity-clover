@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Script, which publishes the code coverage clover.xml from PHPUnit to TeamCity.
+ * Script, which publishes the code coverage metrics of the clover.xml from PHPUnit to TeamCity.
  *
  * @author Michel Hunziker <info@michelhunziker.com>
- * @copyright Copyright (c) 2015 Michel Hunziker <info@michelhunziker.com>
+ * @copyright Copyright (c) 2016 Michel Hunziker <info@michelhunziker.com>
  * @license http://www.opensource.org/licenses/BSD-3-Clause The BSD-3-Clause License
  */
 
