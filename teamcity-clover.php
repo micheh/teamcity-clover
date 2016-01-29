@@ -19,7 +19,7 @@ $crapThreshold = array_key_exists('crap-threshold', $options) ? (float) $options
 
 $path = array_pop($argv);
 if (!file_exists($path)) {
-    echo "Path to the clover.xml is incorrect.\n";
+    echo "clover.xml does not exist: $path\n";
     exit(1);
 }
 
