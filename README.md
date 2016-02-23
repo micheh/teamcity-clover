@@ -21,7 +21,7 @@ Or manually add it to your `composer.json` file with:
 
 ```json
 "require-dev": {
-    "micheh/teamcity-clover": "^0.1.0"
+    "micheh/teamcity-clover": "~0.6"
 }
 ```
 
