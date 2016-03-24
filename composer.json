@@ -1,13 +1,19 @@
 {
     "name": "micheh/teamcity-clover",
-    "description": "Clover.xml parser for TeamCity",
+    "description": "Parse the clover.xml and report the code coverage and CRAP indices to TeamCity",
+    "keywords": ["clover", "clover.xml", "phpunit", "coverage", "code coverage", "teamcity"],
     "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Michel Hunziker",
-            "email": "info@michelhunziker.com"
+            "email": "info@michelhunziker.com",
+            "homepage": "https://www.michelhunziker.com"
         }
     ],
+    "support": {
+        "source": "https://github.com/micheh/teamcity-clover",
+        "issues": "https://github.com/micheh/teamcity-clover/issues"
+    },
     "require": {
         "php": ">=5.2.0"
     },
