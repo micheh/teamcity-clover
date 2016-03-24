@@ -1,4 +1,4 @@
-Copyright (c) 2014, Michel Hunziker <info@michelhunziker.com>.
+Copyright (c) 2016, Michel Hunziker <info@michelhunziker.com>.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

@@ -105,4 +105,4 @@ See the [TeamCity documentation](https://confluence.jetbrains.com/display/TCD9/C
 License
 -------
 The files in this archive are licensed under the BSD-3-Clause license.
-You can find a copy of this license in [LICENSE.txt](LICENSE.txt).
+You can find a copy of this license in [LICENSE.md](LICENSE.md).
