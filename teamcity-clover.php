@@ -35,7 +35,8 @@ if (!$metrics) {
 
 $coveredClasses = 0;
 foreach ($cloverXml->xpath('//class') as $class) {
-    if ((int) $class->metrics['coveredmethods'] === (int) $class->metrics['methods']) {
+    $methods = (int) $class->metrics['methods'];
+    if ($methods > 0 && $methods === (int) $class->metrics['coveredmethods']) {
         $coveredClasses++;
     }
 }
